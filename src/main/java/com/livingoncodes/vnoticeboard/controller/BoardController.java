@@ -14,11 +14,11 @@ public class BoardController {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(BoardController.class);
 	
-	@RequestMapping(value ="/{schoolName}", method = RequestMethod.GET)
-	public String showBoard(@PathVariable("schoolName") String schoolName, Model model) {
-		LOGGER.debug("Rendering school page: " + schoolName);
+	@RequestMapping(value ="/{boardName}", method = RequestMethod.GET)
+	public String showBoard(@PathVariable("boardName") String boardName, Model model) {
+		LOGGER.debug("Rendering board page: " + boardName);
 		
-		model.addAttribute("schoolName", schoolName);
+		model.addAttribute("boardName", boardName);
 		return "board";
 	}
 
