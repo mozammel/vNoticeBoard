@@ -6,7 +6,7 @@
 
 <head>
 
-<title>Board</title>
+<title>New Board</title>
 	<link rel="stylesheet" href="css/carousel.css"
 		th:href="@{/css/carousel.css}" />
 
@@ -17,11 +17,7 @@
 	<div layout:fragment="content">
 		<div class="container">
 			<br /><br /><br />
-			<h1 th:text="${boardName}">School Board Page</h1>
-			
-			<br />
-			<h3>Content:</h3>
-			<span th:text="${boardContent}">Content Goes Here</span>
+			<h1>Do you want to create board for '<span th:text="${boardName}">Board Name</span>'?</h1>
 		</div>
 	</div>
 </body>
