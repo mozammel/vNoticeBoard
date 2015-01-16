@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,5 +71,43 @@ public class BoardController {
 		return "board";
 	}
 
+	@RequestMapping(value ="/{boardName}/edit", method = RequestMethod.GET)
+	public String editBoard(@PathVariable("boardName") String boardName, Model model) {
+		LOGGER.debug("Rendering board edit page: " + boardName);
+		
+		Board board = boardRepository.findByName(boardName);
+		
+		if( board == null) {
+			LOGGER.debug("Board not found: " + boardName);
+			
+			return "home";
+		}
+		
+		System.out.println("From edit");
+		
+		return "editboard";
+	}
+
+	@RequestMapping(value ="/{boardName}/edit", method = RequestMethod.POST)
+	public String doEditBoard(@PathVariable("boardName") String boardName,
+			WebRequest request, RedirectAttributes redirectAttributes, Model model) {
+
+		Board board = boardRepository.findByName(boardName);
+		
+		if( board == null) {
+			LOGGER.debug("Board not found: " + boardName);
+			
+			return "home";
+		}
+		
+		if( board.getPassword().equals(request.getParameter("password"))) {
+			board.setContent(request.getParameter("content"));
+			boardRepository.save(board);
+			return "redirect:/" + request.getParameter("boardName");
+		}
+		
+		redirectAttributes.addAttribute("error", "Password mismatch");
+		return "redirect:/" + request.getParameter("boardName") + "/edit";
+	}
 
 }
